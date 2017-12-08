@@ -756,7 +756,6 @@ int main(int argc, char **argv)
         blake2b_state digest;
 		struct validData valData = { .n = n, .k = k, .digest = &digest };
 
-#if 1
 		uint8_t ii_bin[140] = {0};
         digestInit(&digest, n, k);
 
@@ -767,35 +766,6 @@ int main(int argc, char **argv)
 		//D("%d\n",nn);
         //hashNonce(digest, nn);
 
-		for (int p=0;p<8;p++)
-		{
-			printf("%u %u\n", (uint32_t)(digest.h[p] >> 32), (uint32_t)(digest.h[p]));
-		}
-		printf("\n");
-#endif
-
-#if 0
-		char buf_tmp[] = "04000000737c0c6fe3e0ff259d9a46c9643e2c87b0f3e5878067c95eb6765105000000006f83d9e45b36ad0df9e4de005f81af9bf60f98b686e3192f5000520130fd36c10000000000000000000000000000000000000000000000000000000000000000dc24215aa7b8141c0000c2f706e72a9ff7119b0ab22dafb605cf32a9fcc4a3370b426f9acb8c0000";
-		uint32_t ph[8] = {1779033703, 3144134277, 1013904242, 2773480762, 1359893119, 2600822924, 1223461315, 1541459216};
-		uint32_t pl[8] = {4072524090, 2227873595, 4271175723, 1595750129, 2917565137, 725511199, 2283855409,327033265};
-
-		for (int p=0;p<8;p++)
-		{
-			digest.h[p] = ((uint64_t)(ph[p]) << 32) | (uint64_t)pl[p];
-		}
-
-		digest.t[0] = 0;
-		digest.t[1] = 0;
-
-		digest.f[0] = 0;
-		digest.f[1] = 0;
-
-		digest.buflen = 140;
-
-		memcpy(digest.buf, buf_tmp, digest.buflen);
-
-		digest.last_node = 0;
-#endif
         basicSolve(&digest, n, k, basicValidator, &valData);
     }
 }
